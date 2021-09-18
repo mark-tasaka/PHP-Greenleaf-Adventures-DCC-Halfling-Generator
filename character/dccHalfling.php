@@ -208,7 +208,7 @@
 
        $actionDice = actionDice($level);
 
-       $attackBonus = deedDie($level);
+       $sneekHide = sneakHide($level);
 
        $luckySign = array();
        $luckySign = getBirthAugur();
@@ -255,8 +255,9 @@
 
        $meleeHitLuckyBonus = meleeAttackLuckSign($luckMod, $luckySign[0]);
 
-       //$meleeToHit = $attackBonus + $meleeHitLuckyBonus + $strengthMod;
-       $meleeToHit =$meleeHitLuckyBonus + $strengthMod;
+       $attackBonus = attackBonus($level);
+
+       $meleeToHit =$meleeHitLuckyBonus + $strengthMod + $attackBonus;
 
        $meleeDamageLuckyBonus = meleeDamageLuckSign($luckMod, $luckySign[0]);
 
@@ -265,8 +266,7 @@
        
         $missileHitLuckyBonus = missileAttackLuckSign($luckMod, $luckySign[0]);
 
-        //$missileToHit = $attackBonus + $missileHitLuckyBonus + $agilityMod;
-        $missileToHit = $missileHitLuckyBonus + $agilityMod;
+        $missileToHit = $attackBonus + $missileHitLuckyBonus + $agilityMod;
 
         $missileDamageLuckyBonus = missileDamageLuckSign($luckMod, $luckySign[0]);
 
@@ -294,17 +294,6 @@
 
        $tradeGoodsAddition = tradeGoodsAddition($profession, $trainedWeapon);
 
-       
-       if(isset($_POST["theLuckyWeapon"]))
-       {
-           $luckyWeaponNumberString = $_POST["theLuckyWeapon"];
-       } 
-
-       $luckyWeaponNumber = (int)$luckyWeaponNumberString;
-       $luckyWeapon = getWeapon($luckyWeaponNumber)[0];
-
-
-
         $weaponArray = array();
         $weaponNames = array();
         $weaponDamage = array();
@@ -312,7 +301,7 @@
     //For Random Select weapon
     if(isset($_POST['thecheckBoxRandomWeaponsV3']) && $_POST['thecheckBoxRandomWeaponsV3'] == 1) 
     {
-        $weaponArray = getRandomWeapons($luckyWeaponNumber);
+        $weaponArray = getRandomWeapons();
 
     }
     else
@@ -325,7 +314,6 @@
             }
         }
     }
-
 
     
     
@@ -624,12 +612,20 @@
            <?php
                 echo $speed . '\'';
            ?></span>
-        
-        
+
+                   
         <span id="attackBonus">
         <?php
-               // $attackBonus = getModSign($attackBonus);
+                $attackBonus = getModSign($attackBonus);
                 echo $attackBonus;
+           ?>
+           </span>
+        
+        
+        <span id="sneakHide">
+        <?php
+                $sneekHide = getModSign($sneekHide);
+                echo $sneekHide;
            ?>
            </span>
 
@@ -755,13 +751,7 @@
             ?>
             </span>
 
-            <span id="luckyWeapon">
-            <?php
-                echo $luckyWeapon;
-            ?>
-        </span>
-        
-       
+
        <span id="weaponsList">
            <?php
            

@@ -1,5 +1,7 @@
 <?php
 
+/*Halfling */
+
 
 function getGear($input)
 {
@@ -40,6 +42,7 @@ function getGear($input)
 }
 
 
+
 function getRandomGear()
 {
         $gearArray = array(0, 7, 17, 23);
@@ -59,6 +62,5 @@ function getRandomGear()
         return $gearArray;
 
 }
-
 
 ?>
